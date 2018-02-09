@@ -26,6 +26,7 @@ public interface CrudItemRepo extends JpaRepository<Item, Integer> {
     List<Item> getBetweenByStatus(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate, @Param("closed") boolean closed);
 
     @Override
+    @Transactional
     Item save(Item item);
 
     @Modifying

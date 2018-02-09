@@ -43,15 +43,16 @@ public class Item {
     }
 
     public Item(Integer id, String name, double quantity, String description) {
-        this(id, name, quantity, description, 0, null, null);
+        this(id, name, quantity, description, 0, false, null, null);
     }
 
-    public Item(Integer id, String name, double quantity, String description, int price, LocalDateTime createDate, LocalDateTime closeDate) {
+    public Item(Integer id, String name, double quantity, String description, int price, boolean closed, LocalDateTime createDate, LocalDateTime closeDate) {
         this.id = id;
         this.name = name;
         this.quantity = quantity;
         this.description = description;
         this.price = price;
+        this.closed = closed;
         this.createDate = createDate;
         this.closeDate = closeDate;
     }
