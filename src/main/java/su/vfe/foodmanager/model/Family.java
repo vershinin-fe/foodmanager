@@ -16,6 +16,13 @@ public class Family extends AbstractNamedEntity {
     @OrderBy("createDate ASC")
     protected List<Item> items;
 
+    public Family() {
+    }
+
+    public Family(Integer id, String name) {
+        super(id, name);
+    }
+
     public List<User> getUsers() {
         return users;
     }

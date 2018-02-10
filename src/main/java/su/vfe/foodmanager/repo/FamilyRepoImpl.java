@@ -2,10 +2,12 @@ package su.vfe.foodmanager.repo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Repository;
 import su.vfe.foodmanager.model.Family;
 
 import java.util.List;
 
+@Repository
 public class FamilyRepoImpl implements FamilyRepo {
 
     private static final Sort SORT_NAME = new Sort(Sort.Direction.ASC, "name");

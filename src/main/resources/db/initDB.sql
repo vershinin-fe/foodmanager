@@ -32,6 +32,6 @@ CREATE TABLE users
   enabled          BOOLEAN DEFAULT TRUE    NOT NULL,
   role             VARCHAR(255),
   family_id        INTEGER,
-  FOREIGN KEY (family_id) REFERENCES families(id)
+  FOREIGN KEY (family_id) REFERENCES families(id) ON DELETE CASCADE
 );
 CREATE UNIQUE INDEX users_unique_email_idx ON USERS (email);
