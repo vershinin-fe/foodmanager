@@ -3,44 +3,52 @@ package su.vfe.foodmanager.repo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import su.vfe.foodmanager.model.Item;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
 public class ItemRepoImpl implements ItemRepo {
-    private static final Sort SORT_CREATE_DATE = new Sort(Sort.Direction.ASC, "createDate");
 
     @Autowired
-    private CrudItemRepo crudRepo;
+    private CrudItemRepo crudItemRepo;
+
+    @Autowired
+    private CrudFamilyRepo crudFamilyRepo;
 
     @Override
-    public Item get(int id) {
-        return crudRepo.findById(id).orElse(null);
+    public Item get(int id, int familyId) {
+        return crudItemRepo.findById(id).filter(item -> item.getFamily().getId() == familyId).orElse(null);
     }
 
     @Override
-    public List<Item> getAll() {
-        return crudRepo.findAll(SORT_CREATE_DATE);
+    public List<Item> getAll(int familyId) {
+        return crudItemRepo.getAll(familyId);
     }
 
     @Override
-    public List<Item> getByStatus(boolean closed) {
-        return crudRepo.getByStatus(closed);
+    public List<Item> getByStatus(boolean closed, int familyId) {
+        return crudItemRepo.getByStatus(closed, familyId);
     }
 
     @Override
-    public List<Item> getBetweenByStatus(LocalDateTime startDate, LocalDateTime endDate, boolean closed) {
-        return crudRepo.getBetweenByStatus(startDate, endDate, closed);
+    public List<Item> getBetweenByStatus(LocalDateTime startDate, LocalDateTime endDate, boolean closed, int familyId) {
+        return crudItemRepo.getBetweenByStatus(startDate, endDate, closed, familyId);
     }
 
     @Override
-    public Item save(Item item) {
-        return crudRepo.save(item);
+    @Transactional
+    public Item save(Item item, int familyId) {
+        if (!item.isNew() && get(item.getId(), familyId) == null) {
+            return null;
+        }
+        item.setFamily(crudFamilyRepo.getOne(familyId));
+        return crudItemRepo.save(item);
     }
 
     @Override
-    public boolean delete(int id) {
-        return crudRepo.delete(id) != 0;
+    public boolean delete(int id, int familyId) {
+        return crudItemRepo.delete(id, familyId) != 0;
     }
 }

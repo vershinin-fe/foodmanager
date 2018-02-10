@@ -7,8 +7,11 @@ import java.util.List;
 import static su.vfe.foodmanager.model.Item.START_SEQ;
 
 public class ItemTestData {
-    public static final int ITEM1_ID = START_SEQ;
+    public static final int ITEM1_ID = START_SEQ + 5;
     public static final int WRONG_ID = 10;
+
+    public static final int VERSHININY_ID = 100;
+    public static final int DERYABINY_ID = 101;
 
     public static final LocalDateTime DATE_TIME_1 = LocalDateTime.of(2018, 1, 14, 15, 0, 50);
     public static final LocalDateTime DATE_TIME_2 = LocalDateTime.of(2018, 2, 14, 15, 0, 50);

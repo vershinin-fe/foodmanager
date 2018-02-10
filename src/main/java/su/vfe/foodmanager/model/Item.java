@@ -1,21 +1,14 @@
 package su.vfe.foodmanager.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "items")
 @Access(value = AccessType.FIELD)
-public class Item {
-    public static final int START_SEQ = 100;
-
-    @Id
-    @SequenceGenerator(name = "items_seq", sequenceName = "items_seq", allocationSize = 1, initialValue = START_SEQ)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "items_seq")
-    private Integer id;
-
-    @Column(name = "name")
-    private String name;
+public class Item extends AbstractNamedEntity {
 
     @Column(name = "quantity")
     private double quantity;
@@ -35,6 +28,11 @@ public class Item {
     @Column(name = "closedate")
     private LocalDateTime closeDate;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "family_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Family family;
+
     public Item() {
     }
 
@@ -47,30 +45,13 @@ public class Item {
     }
 
     public Item(Integer id, String name, double quantity, String description, int price, boolean closed, LocalDateTime createDate, LocalDateTime closeDate) {
-        this.id = id;
-        this.name = name;
+        super(id, name);
         this.quantity = quantity;
         this.description = description;
         this.price = price;
         this.closed = closed;
         this.createDate = createDate;
         this.closeDate = closeDate;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public double getQuantity() {
@@ -89,11 +70,11 @@ public class Item {
         this.description = description;
     }
 
-    public Integer getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 
@@ -121,17 +102,26 @@ public class Item {
         this.closeDate = closeDate;
     }
 
+    public Family getFamily() {
+        return family;
+    }
+
+    public void setFamily(Family family) {
+        this.family = family;
+    }
+
     @Override
     public String toString() {
         return "Item{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", quantity=" + quantity +
+                "quantity=" + quantity +
                 ", description='" + description + '\'' +
                 ", price=" + price +
                 ", closed=" + closed +
                 ", createDate=" + createDate +
                 ", closeDate=" + closeDate +
+                ", family=" + family +
+                ", name='" + name + '\'' +
+                ", id=" + id +
                 '}';
     }
 }

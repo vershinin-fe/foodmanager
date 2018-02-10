@@ -5,17 +5,21 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ItemRepo {
-    // null if not found
-    Item get(int id);
+    // null if item do not belong to familyId
+    Item get(int id, int familyId);
 
-    List<Item> getAll();
+    // ORDERED createDate asc
+    List<Item> getAll(int familyId);
 
-    List<Item> getByStatus(boolean closed);
+    // ORDERED createDate asc
+    List<Item> getByStatus(boolean closed, int familyId);
 
-    List<Item> getBetweenByStatus(LocalDateTime startDate, LocalDateTime endDate, boolean closed);
+    // ORDERED createDate asc
+    List<Item> getBetweenByStatus(LocalDateTime startDate, LocalDateTime endDate, boolean closed, int familyId);
 
-    Item save(Item item);
+    // null if updated item do not belong to familyId
+    Item save(Item item, int familyId);
 
-    // false if not found
-    boolean delete(int id);
+    // false if item do not belong to familyId
+    boolean delete(int id, int familyId);
 }

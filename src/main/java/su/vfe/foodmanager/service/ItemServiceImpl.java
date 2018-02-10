@@ -21,47 +21,47 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Item get(int id) throws NotFoundException {
-        return checkNotFoundWithId(repo.get(id), id);
+    public Item get(int id, int familyId) throws NotFoundException {
+        return checkNotFoundWithId(repo.get(id, familyId), id);
     }
 
     @Override
-    public List<Item> getAll() {
-        return repo.getAll();
+    public List<Item> getAll(int familyId) {
+        return repo.getAll(familyId);
     }
 
     @Override
-    public List<Item> getByStatus(boolean closed) {
-        return repo.getByStatus(closed);
+    public List<Item> getByStatus(boolean closed, int familyId) {
+        return repo.getByStatus(closed, familyId);
     }
 
     @Override
-    public List<Item> getBetweenByStatus(LocalDateTime startDate, LocalDateTime endDate, boolean closed) {
+    public List<Item> getBetweenByStatus(LocalDateTime startDate, LocalDateTime endDate, boolean closed, int familyId) {
         Assert.notNull(startDate, "startDate must not be null");
         Assert.notNull(endDate, "endDate  must not be null");
-        return repo.getBetweenByStatus(startDate, endDate, closed);
+        return repo.getBetweenByStatus(startDate, endDate, closed, familyId);
     }
 
     @Override
-    public Item create(Item item) {
+    public Item create(Item item, int familyId) {
         Assert.notNull(item, "item must not be null");
-        return repo.save(item);
+        return repo.save(item, familyId);
     }
 
     @Override
-    public Item update(Item item) {
-        return checkNotFoundWithId(repo.save(item), item.getId());
+    public Item update(Item item, int familyId) {
+        return checkNotFoundWithId(repo.save(item, familyId), item.getId());
     }
 
     @Override
-    public void delete(int id) throws NotFoundException {
-        checkNotFoundWithId(repo.delete(id), id);
+    public void delete(int id, int familyId) throws NotFoundException {
+        checkNotFoundWithId(repo.delete(id, familyId), id);
     }
 
     @Override
-    public void close(int id, boolean close) {
-        Item item = get(id);
+    public void close(int id, boolean close, int familyId) {
+        Item item = get(id, familyId);
         item.setClosed(close);
-        repo.save(item);
+        repo.save(item, familyId);
     }
 }

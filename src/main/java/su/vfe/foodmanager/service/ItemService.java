@@ -6,19 +6,19 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ItemService {
-    Item get(int id) throws NotFoundException;
+    Item get(int id, int familyId) throws NotFoundException;
 
-    List<Item> getAll();
+    List<Item> getAll(int familyId);
 
-    List<Item> getByStatus(boolean closed);
+    List<Item> getByStatus(boolean closed, int familyId);
 
-    List<Item> getBetweenByStatus(LocalDateTime startDate, LocalDateTime endDate, boolean closed);
+    List<Item> getBetweenByStatus(LocalDateTime startDate, LocalDateTime endDate, boolean closed, int familyId);
 
-    Item create(Item item);
+    Item create(Item item, int familyId);
 
-    Item update(Item item);
+    Item update(Item item, int familyId);
 
-    void delete(int id) throws NotFoundException;
+    void delete(int id, int familyId) throws NotFoundException;
 
-    void close(int id, boolean close);
+    void close(int id, boolean close, int familyId);
 }
