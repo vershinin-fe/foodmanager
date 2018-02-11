@@ -6,7 +6,7 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public abstract class AbstractNamedEntity extends AbstractBaseEntity {
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
     protected String name;
 
     public AbstractNamedEntity() {

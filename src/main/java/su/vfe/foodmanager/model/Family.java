@@ -10,11 +10,11 @@ public class Family extends AbstractNamedEntity {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "family")
     @OrderBy("name ASC")
-    protected List<User> users;
+    private List<User> users;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "family")
     @OrderBy("createDate ASC")
-    protected List<Item> items;
+    private List<Item> items;
 
     public Family() {
     }
