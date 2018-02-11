@@ -2,6 +2,9 @@ package su.vfe.foodmanager;
 
 import su.vfe.foodmanager.model.Role;
 import su.vfe.foodmanager.model.User;
+
+import java.util.List;
+
 import static su.vfe.foodmanager.model.AbstractBaseEntity.START_SEQ;
 
 public class UserTestData {
