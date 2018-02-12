@@ -4,9 +4,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import su.vfe.foodmanager.model.Family;
 import su.vfe.foodmanager.service.FamilyService;
+import java.net.URI;
+import java.util.List;
+import static su.vfe.foodmanager.util.ValidationUtil.*;
 
 @RestController
 @RequestMapping(value = FamilyRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -23,5 +28,45 @@ public class FamilyRestController {
     public Family get(@PathVariable("id") int id) {
         log.info("get family {}", id);
         return service.get(id);
+    }
+
+    @GetMapping
+    public List<Family> getAll() {
+        log.info("getAll families");
+        return service.getAll();
+    }
+
+    //TODO: Maybe I delete it later
+    @GetMapping("/full/{id}")
+    public Family getWithUsers(@PathVariable("id") int id) {
+        log.info("get family {} with users", id);
+        return service.getWithUsers(id);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable("id") int id) {
+        log.info("delete family {}", id);
+        service.delete(id);
+    }
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Family> createWithLocation(@RequestBody Family family) {
+        checkNew(family);
+        log.info("create {}", family);
+
+        Family created = service.create(family);
+
+        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(REST_URL + "/{id}")
+                .buildAndExpand(created.getId()).toUri();
+
+        return ResponseEntity.created(uriOfNewResource).body(created);
+    }
+
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void update(@RequestBody Family family, @PathVariable("id") int id) {
+        assureIdConsistent(family, id);
+        log.info("update {}", family);
+        service.update(family);
     }
 }

@@ -1,5 +1,7 @@
 package su.vfe.foodmanager.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -21,6 +23,8 @@ public class User extends AbstractNamedEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "family_id")
+    //TODO: Have to think about serializing graphs
+    @JsonIgnore
     private Family family;
 
     public User() {
