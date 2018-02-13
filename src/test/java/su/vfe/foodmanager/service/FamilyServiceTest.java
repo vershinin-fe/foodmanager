@@ -14,6 +14,11 @@ import java.util.Collections;
 
 import static su.vfe.foodmanager.FamilyTestData.*;
 import static su.vfe.foodmanager.UserTestData.USER1;
+import static su.vfe.foodmanager.UserTestData.USER2;
+import static su.vfe.foodmanager.UserTestData.ADMIN;
+import static su.vfe.foodmanager.UserTestData.USER1_ID;
+import static su.vfe.foodmanager.UserTestData.USER2_ID;
+import static su.vfe.foodmanager.UserTestData.ADMIN_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ContextConfiguration({
@@ -77,5 +82,28 @@ public class FamilyServiceTest {
     @Test(expected = NotFoundException.class)
     public void getWithUsersNotFound() {
         service.getWithUsers(WRONG_ID);
+    }
+
+    @Test
+    public void addUser() {
+        service.addUser(FAMILY1_ID, ADMIN_ID);
+        assertThat(service.getWithUsers(FAMILY1_ID).getUsers()).usingElementComparatorIgnoringFields("family").isEqualTo(Arrays.asList(ADMIN, USER1));
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void addUserAlreadyInFamily() {
+        service.addUser(FAMILY1_ID, USER1_ID);
+    }
+
+    @Test
+    public void removeUser() {
+        assertThat(service.getWithUsers(FAMILY2_ID).getUsers()).usingElementComparatorIgnoringFields("family").isEqualTo(Collections.singletonList(USER2));
+        service.removeUser(FAMILY2_ID, USER2_ID);
+        assertThat(service.getWithUsers(FAMILY2_ID).getUsers()).isEmpty();
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void removeUserNotPresent() {
+        service.removeUser(FAMILY2_ID, USER1_ID);
     }
 }

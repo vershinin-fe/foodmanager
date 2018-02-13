@@ -69,4 +69,16 @@ public class FamilyRestController {
         log.info("update {}", family);
         service.update(family);
     }
+
+    @PatchMapping(value = "/{id}/remove/user/{userId}")
+    public void removeUser(@PathVariable("id") int id, @PathVariable("userId") int userId) {
+        log.info("remove User with id={} from Family with id={}", userId, id);
+        service.removeUser(id, userId);
+    }
+
+    @PatchMapping(value = "/{id}/add/user/{userId}")
+    public void addUser(@PathVariable("id") int id, @PathVariable("userId") int userId) {
+        log.info("add User with id={} to Family with id={}", userId, id);
+        service.addUser(id, userId);
+    }
 }

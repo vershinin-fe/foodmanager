@@ -2,9 +2,12 @@ package su.vfe.foodmanager.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import su.vfe.foodmanager.model.Family;
+import su.vfe.foodmanager.model.User;
 import su.vfe.foodmanager.repo.FamilyRepo;
+import su.vfe.foodmanager.repo.UserRepo;
 import su.vfe.foodmanager.util.exception.NotFoundException;
 import static su.vfe.foodmanager.util.ValidationUtil.*;
 import java.util.List;
@@ -12,42 +15,73 @@ import java.util.List;
 @Service
 public class FamilyServiceImpl implements FamilyService {
 
-    private final FamilyRepo repo;
+    private final FamilyRepo familyRepo;
+
+    private final UserService userService;
 
     @Autowired
-    public FamilyServiceImpl(FamilyRepo repo) {
-        this.repo = repo;
+    public FamilyServiceImpl(FamilyRepo familyRepo, UserService userService) {
+        this.familyRepo = familyRepo;
+        this.userService = userService;
     }
 
     @Override
     public Family get(int id) throws NotFoundException {
-        return checkNotFoundWithId(repo.get(id), id);
+        return checkNotFoundWithId(familyRepo.get(id), id);
     }
 
     @Override
     public List<Family> getAll() {
-        return repo.getAll();
+        return familyRepo.getAll();
     }
 
     @Override
     public Family create(Family family) {
         Assert.notNull(family, "family must not be null");
-        return repo.save(family);
+        return familyRepo.save(family);
     }
 
     @Override
     public void update(Family family) {
         Assert.notNull(family, "family must not be null");
-        checkNotFoundWithId(repo.save(family), family.getId());
+        checkNotFoundWithId(familyRepo.save(family), family.getId());
     }
 
     @Override
     public void delete(int id) throws NotFoundException {
-        checkNotFoundWithId(repo.delete(id), id);
+        checkNotFoundWithId(familyRepo.delete(id), id);
     }
 
     @Override
     public Family getWithUsers(int id) {
-        return checkNotFoundWithId(repo.getWithUsers(id), id);
+        return checkNotFoundWithId(familyRepo.getWithUsers(id), id);
+    }
+
+    @Transactional
+    @Override
+    public void addUser(int id, int userId) throws IllegalStateException {
+        Family family = get(id);
+        User user = userService.get(userId);
+
+        if(user.getFamily() != null) {
+            throw new IllegalStateException(String.format("User with id=%d is already in family with id=%d", userId, user.getFamily().getId()));
+        }
+
+        user.setFamily(family);
+        family.getUsers().add(user);
+    }
+
+    @Transactional
+    @Override
+    public void removeUser(int id, int userId) {
+        Family family = get(id);
+        User user = userService.get(userId);
+
+        if(!family.getUsers().contains(user)) {
+            throw new IllegalStateException(String.format("User with id=%d is not in this family", userId));
+        }
+
+        user.setFamily(null);
+        family.getUsers().remove(user);
     }
 }

@@ -16,4 +16,8 @@ public interface FamilyService {
     void delete(int id) throws NotFoundException;
 
     Family getWithUsers(int id);
+
+    void addUser(int id, int userId);
+
+    void removeUser(int id, int userId);
 }
