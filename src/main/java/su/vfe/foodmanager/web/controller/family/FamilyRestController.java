@@ -19,7 +19,7 @@ public class FamilyRestController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-    static final String REST_URL = "/rest/profile/families";
+    static final String REST_URL = "/rest/admin/families";
 
     @Autowired
     private FamilyService service;
