@@ -31,11 +31,6 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<Item> getByStatus(boolean closed, int familyId) {
-        return repo.getByStatus(closed, familyId);
-    }
-
-    @Override
     public List<Item> getBetweenByStatus(LocalDateTime startDate, LocalDateTime endDate, boolean closed, int familyId) {
         Assert.notNull(startDate, "startDate must not be null");
         Assert.notNull(endDate, "endDate  must not be null");

@@ -48,11 +48,6 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void getByStatus() {
-        assertThat(service.getByStatus(true, FAMILY1_ID)).usingElementComparatorIgnoringFields("family").isEqualTo(Arrays.asList(ITEM5, ITEM6));
-    }
-
-    @Test
     public void getBetweenByStatus() {
         assertThat(service.getBetweenByStatus(DATE_TIME_2, DATE_TIME_4, false, FAMILY1_ID)).usingElementComparatorIgnoringFields("family").isEqualTo(Collections.singletonList(ITEM7));
     }

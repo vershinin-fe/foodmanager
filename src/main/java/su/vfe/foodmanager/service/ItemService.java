@@ -10,8 +10,6 @@ public interface ItemService {
 
     List<Item> getAll(int familyId);
 
-    List<Item> getByStatus(boolean closed, int familyId);
-
     List<Item> getBetweenByStatus(LocalDateTime startDate, LocalDateTime endDate, boolean closed, int familyId);
 
     Item create(Item item, int familyId);

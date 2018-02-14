@@ -28,11 +28,6 @@ public class ItemRepoImpl implements ItemRepo {
     }
 
     @Override
-    public List<Item> getByStatus(boolean closed, int familyId) {
-        return crudItemRepo.getByStatus(closed, familyId);
-    }
-
-    @Override
     public List<Item> getBetweenByStatus(LocalDateTime startDate, LocalDateTime endDate, boolean closed, int familyId) {
         return crudItemRepo.getBetweenByStatus(startDate, endDate, closed, familyId);
     }

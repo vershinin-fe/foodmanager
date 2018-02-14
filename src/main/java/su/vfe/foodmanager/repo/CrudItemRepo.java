@@ -15,9 +15,7 @@ public interface CrudItemRepo extends JpaRepository<Item, Integer> {
     @Query("SELECT i FROM Item i WHERE i.family.id=:familyId ORDER BY i.createDate ASC")
     List<Item> getAll(@Param("familyId") int familyId);
 
-    @Query("SELECT i from Item i WHERE i.closed=:closed AND i.family.id=:familyId ORDER BY i.createDate")
-    List<Item> getByStatus(@Param("closed") boolean closed, @Param("familyId") int familyId);
-
+    @SuppressWarnings("JpaQlInspection")
     @Query("SELECT i from Item i WHERE i.closed=:closed AND i.family.id=:familyId AND i.createDate BETWEEN :startDate AND :endDate ORDER BY i.createDate")
     List<Item> getBetweenByStatus(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate, @Param("closed") boolean closed, @Param("familyId") int familyId);
 

@@ -12,9 +12,6 @@ public interface ItemRepo {
     List<Item> getAll(int familyId);
 
     // ORDERED createDate asc
-    List<Item> getByStatus(boolean closed, int familyId);
-
-    // ORDERED createDate asc
     List<Item> getBetweenByStatus(LocalDateTime startDate, LocalDateTime endDate, boolean closed, int familyId);
 
     // null if updated item do not belong to familyId
