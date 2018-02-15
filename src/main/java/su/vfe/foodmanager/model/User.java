@@ -21,10 +21,9 @@ public class User extends AbstractNamedEntity {
     @Column(name = "role")
     private Role role;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    //TODO: Think about EAGER loading
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "family_id")
-    //TODO: Have to think about serializing graphs
-    @JsonIgnore
     private Family family;
 
     public User() {

@@ -8,7 +8,8 @@ import java.util.List;
 @Access(value = AccessType.FIELD)
 public class Family extends AbstractNamedEntity {
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "family")
+    //TODO: Think about EAGER loading
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "family")
     @OrderBy("name ASC")
     private List<User> users;
 

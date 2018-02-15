@@ -1,11 +1,14 @@
 package su.vfe.foodmanager.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.Hibernate;
 import su.vfe.foodmanager.HasId;
 import javax.persistence.*;
 
 @MappedSuperclass
 @Access(AccessType.FIELD)
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
 public abstract class AbstractBaseEntity implements HasId {
     public static final int START_SEQ = 100;
 

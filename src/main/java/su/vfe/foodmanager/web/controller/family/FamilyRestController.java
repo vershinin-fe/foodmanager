@@ -36,7 +36,7 @@ public class FamilyRestController {
         return service.getAll();
     }
 
-    //TODO: Maybe I delete it later
+    //TODO: Maybe I delete it later (not necessary with EAGER loading)
     @GetMapping("/full/{id}")
     public Family getWithUsers(@PathVariable("id") int id) {
         log.info("get family {} with users", id);

@@ -1,7 +1,6 @@
 package su.vfe.foodmanager.repo;
 
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -28,7 +27,6 @@ public interface CrudFamilyRepo extends JpaRepository<Family, Integer> {
     @Override
     List<Family> findAll(Sort sort);
 
-    @EntityGraph(attributePaths = {"users"}, type = EntityGraph.EntityGraphType.LOAD)
     @Query("SELECT f FROM Family f WHERE f.id=:id")
     Family getWithUsers(@Param("id") int id);
 }
