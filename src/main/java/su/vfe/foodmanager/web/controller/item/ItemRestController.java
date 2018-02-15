@@ -12,6 +12,8 @@ import su.vfe.foodmanager.AuthorizedUser;
 import su.vfe.foodmanager.model.Item;
 import su.vfe.foodmanager.service.ItemService;
 import su.vfe.foodmanager.util.DateTimeUtil;
+
+import javax.validation.Valid;
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -63,7 +65,7 @@ public class ItemRestController {
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@RequestBody Item item, @PathVariable("id") int id) {
+    public void update(@Valid @RequestBody Item item, @PathVariable("id") int id) {
         int familyId = AuthorizedUser.family_id();
         assureIdConsistent(item, id);
         log.info("update {}", item);
@@ -71,7 +73,7 @@ public class ItemRestController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Item> createWithLocation(@RequestBody Item item) {
+    public ResponseEntity<Item> createWithLocation(@Valid @RequestBody Item item) {
         int familyId = AuthorizedUser.family_id();
         checkNew(item);
         log.info("create {} for family {}", item, familyId);

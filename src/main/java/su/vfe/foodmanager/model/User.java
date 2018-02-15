@@ -3,20 +3,30 @@ package su.vfe.foodmanager.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "users")
 public class User extends AbstractNamedEntity {
 
+    @Email
+    @NotBlank
+    @Size(max = 100)
     @Column(name = "email")
     private String email;
 
+    @NotBlank
+    @Size(min = 5, max = 100)
     @Column(name = "password")
     private String password;
 
     @Column(name = "enabled")
     private boolean enabled = true;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private Role role;

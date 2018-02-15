@@ -2,7 +2,10 @@ package su.vfe.foodmanager.model;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.validator.constraints.Range;
+
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -10,18 +13,25 @@ import java.time.LocalDateTime;
 @Access(value = AccessType.FIELD)
 public class Item extends AbstractNamedEntity {
 
+    //TODO: Think about units of measurement
     @Column(name = "quantity")
+    @DecimalMin("0.0")
+    @DecimalMax("10000.0")
     private double quantity;
 
     @Column(name = "description")
+    @NotBlank
+    @Size(min = 2, max = 250)
     private String description;
 
     @Column(name = "price")
+    @Range(min = 0, max = 1000000)
     private int price;
 
     @Column(name = "closed")
     private boolean closed;
 
+    @NotNull
     @Column(name = "createdate")
     private LocalDateTime createDate;
 
@@ -31,6 +41,7 @@ public class Item extends AbstractNamedEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "family_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @NotNull
     private Family family;
 
     public Item() {

@@ -57,6 +57,7 @@ public class ItemServiceImpl implements ItemService {
     public void close(int id, boolean close, int familyId) {
         Item item = get(id, familyId);
         item.setClosed(close);
+        item.setCloseDate(close ? LocalDateTime.now() : null);
         repo.save(item, familyId);
     }
 }

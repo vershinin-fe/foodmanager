@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import su.vfe.foodmanager.model.Family;
 import su.vfe.foodmanager.service.FamilyService;
+
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import static su.vfe.foodmanager.util.ValidationUtil.*;
@@ -50,7 +52,7 @@ public class FamilyRestController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Family> createWithLocation(@RequestBody Family family) {
+    public ResponseEntity<Family> createWithLocation(@Valid @RequestBody Family family) {
         checkNew(family);
         log.info("create {}", family);
 
@@ -64,7 +66,7 @@ public class FamilyRestController {
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@RequestBody Family family, @PathVariable("id") int id) {
+    public void update(@Valid @RequestBody Family family, @PathVariable("id") int id) {
         assureIdConsistent(family, id);
         log.info("update {}", family);
         service.update(family);

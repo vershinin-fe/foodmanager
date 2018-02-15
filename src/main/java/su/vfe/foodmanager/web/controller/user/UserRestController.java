@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import su.vfe.foodmanager.model.User;
 import su.vfe.foodmanager.service.UserService;
+
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import static su.vfe.foodmanager.util.ValidationUtil.assureIdConsistent;
@@ -50,14 +52,14 @@ public class UserRestController {
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@RequestBody User user, @PathVariable("id") int id) {
+    public void update(@Valid @RequestBody User user, @PathVariable("id") int id) {
         log.info("update {} with id={}", user, id);
         assureIdConsistent(user, id);
         service.update(user);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> createWithLocation(@RequestBody User user) {
+    public ResponseEntity<User> createWithLocation(@Valid @RequestBody User user) {
         log.info("create {}", user);
         checkNew(user);
         User created = service.create(user);
