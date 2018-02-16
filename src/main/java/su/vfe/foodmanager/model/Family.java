@@ -28,6 +28,10 @@ public class Family extends AbstractNamedEntity {
         return users;
     }
 
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
     public List<Item> getItems() {
         return items;
     }
