@@ -32,9 +32,11 @@
         <spring-data-jpa.version>2.0.3.RELEASE</spring-data-jpa.version>
 
         <!-- WEB -->
+        <tomcat.version>8.5.24</tomcat.version>
 
         <!-- JSON -->
         <jackson-json.version>2.9.4</jackson-json.version>
+        <jsonassert.version>1.5.0</jsonassert.version>
 
         <!-- Logging -->
         <logback.version>1.2.3</logback.version>
@@ -88,6 +90,12 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-servlet-api</artifactId>
+            <version>${tomcat.version}</version>
+            <scope>provided</scope>
+        </dependency>
 
         <!-- JSON -->
         <dependency>
@@ -104,6 +112,12 @@
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>${jackson-json.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.skyscreamer</groupId>
+            <artifactId>jsonassert</artifactId>
+            <version>${jsonassert.version}</version>
+            <scope>test</scope>
         </dependency>
 
         <!-- Logging -->
