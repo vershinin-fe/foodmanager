@@ -17,6 +17,11 @@ public class Item extends AbstractNamedEntity {
     @Range(min = 0, max = 100)
     private int quantity;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "mu")
+    private MeasurementUnit measurementUnit;
+
     @Column(name = "description")
     @NotBlank
     @Size(min = 2, max = 250)
@@ -39,23 +44,23 @@ public class Item extends AbstractNamedEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "family_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @NotNull
     private Family family;
 
     public Item() {
     }
 
-    public Item(Integer id, String name, int quantity) {
-        this(id, name, quantity, null);
+    public Item(Integer id, String name, int quantity, MeasurementUnit measurementUnit) {
+        this(id, name, quantity, measurementUnit, null);
     }
 
-    public Item(Integer id, String name, int quantity, String description) {
-        this(id, name, quantity, description, 0, false, null, null);
+    public Item(Integer id, String name, int quantity, MeasurementUnit measurementUnit, String description) {
+        this(id, name, quantity, measurementUnit, description, 0, false, null, null);
     }
 
-    public Item(Integer id, String name, int quantity, String description, int price, boolean closed, LocalDateTime createDate, LocalDateTime closeDate) {
+    public Item(Integer id, String name, int quantity, MeasurementUnit measurementUnit, String description, int price, boolean closed, LocalDateTime createDate, LocalDateTime closeDate) {
         super(id, name);
         this.quantity = quantity;
+        this.measurementUnit = measurementUnit;
         this.description = description;
         this.price = price;
         this.closed = closed;
@@ -69,6 +74,14 @@ public class Item extends AbstractNamedEntity {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public MeasurementUnit getMeasurementUnit() {
+        return measurementUnit;
+    }
+
+    public void setMeasurementUnit(MeasurementUnit measurementUnit) {
+        this.measurementUnit = measurementUnit;
     }
 
     public String getDescription() {
@@ -123,6 +136,7 @@ public class Item extends AbstractNamedEntity {
     public String toString() {
         return "Item{" +
                 "quantity=" + quantity +
+                ", measurementUnit=" + measurementUnit +
                 ", description='" + description + '\'' +
                 ", price=" + price +
                 ", closed=" + closed +
