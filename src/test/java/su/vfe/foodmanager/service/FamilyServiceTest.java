@@ -8,6 +8,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import su.vfe.foodmanager.model.Family;
+import su.vfe.foodmanager.util.exception.FamilyMembershipChangeException;
 import su.vfe.foodmanager.util.exception.NotFoundException;
 import java.util.Arrays;
 import java.util.Collections;
@@ -15,10 +16,10 @@ import java.util.Collections;
 import static su.vfe.foodmanager.FamilyTestData.*;
 import static su.vfe.foodmanager.UserTestData.USER1;
 import static su.vfe.foodmanager.UserTestData.USER2;
-import static su.vfe.foodmanager.UserTestData.ADMIN;
+import static su.vfe.foodmanager.UserTestData.USER3;
 import static su.vfe.foodmanager.UserTestData.USER1_ID;
 import static su.vfe.foodmanager.UserTestData.USER2_ID;
-import static su.vfe.foodmanager.UserTestData.ADMIN_ID;
+import static su.vfe.foodmanager.UserTestData.USER3_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ContextConfiguration({
@@ -86,11 +87,11 @@ public class FamilyServiceTest {
 
     @Test
     public void addUser() {
-        service.addUser(FAMILY1_ID, ADMIN_ID);
-        assertThat(service.getWithUsers(FAMILY1_ID).getUsers()).usingElementComparatorIgnoringFields("family").isEqualTo(Arrays.asList(ADMIN, USER1));
+        service.addUser(FAMILY1_ID, USER3_ID);
+        assertThat(service.getWithUsers(FAMILY1_ID).getUsers()).usingElementComparatorIgnoringFields("family").isEqualTo(Arrays.asList(USER1, USER3));
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test(expected = FamilyMembershipChangeException.class)
     public void addUserAlreadyInFamily() {
         service.addUser(FAMILY1_ID, USER1_ID);
     }
@@ -102,7 +103,7 @@ public class FamilyServiceTest {
         assertThat(service.getWithUsers(FAMILY2_ID).getUsers()).isEmpty();
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test(expected = FamilyMembershipChangeException.class)
     public void removeUserNotPresent() {
         service.removeUser(FAMILY2_ID, USER1_ID);
     }

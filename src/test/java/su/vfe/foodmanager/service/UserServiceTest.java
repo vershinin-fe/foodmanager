@@ -31,7 +31,7 @@ public class UserServiceTest {
         User newUser = new User(null, "Test", "test@mail.ru", "password", Role.ROLE_USER);
         User created = service.create(newUser);
         newUser.setId(created.getId());
-        assertThat(service.getAll()).usingElementComparatorIgnoringFields("family").isEqualTo(Arrays.asList(ADMIN, USER1, newUser, USER2));
+        assertThat(service.getAll()).usingElementComparatorIgnoringFields("family").isEqualTo(Arrays.asList(ADMIN, USER1, USER3, newUser, USER2));
     }
 
     @Test(expected = DataAccessException.class)
@@ -42,7 +42,7 @@ public class UserServiceTest {
     @Test
     public void delete() {
         service.delete(USER1_ID);
-        assertThat(service.getAll()).usingElementComparatorIgnoringFields("family").isEqualTo(Arrays.asList(ADMIN, USER2));
+        assertThat(service.getAll()).usingElementComparatorIgnoringFields("family").isEqualTo(Arrays.asList(ADMIN, USER3, USER2));
     }
 
     @Test(expected = NotFoundException.class)
@@ -84,7 +84,7 @@ public class UserServiceTest {
     @Test
     public void getAll() {
         List<User> all = service.getAll();
-        assertThat(all).usingElementComparatorIgnoringFields("family").isEqualTo(Arrays.asList(ADMIN, USER1, USER2));
+        assertThat(all).usingElementComparatorIgnoringFields("family").isEqualTo(Arrays.asList(ADMIN, USER1, USER3, USER2));
     }
 
     @Test

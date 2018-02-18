@@ -15,6 +15,9 @@ INSERT INTO users (name, email, password, role, family_id) VALUES
 INSERT INTO users (id, name, email, password, role) VALUES
   (1, 'Admin', 'admin@mail.ru', 'password', 'ROLE_ADMIN');
 
+INSERT INTO users (name, email, password, role) VALUES
+  ('FreeUser', 'freeuser@mail.ru', 'password', 'ROLE_USER');
+
 INSERT INTO items (name, quantity, description, price, closed, createdate, family_id) VALUES
   ('Молоко', 1, 'Чебаркуль', 84, false, '2018-01-14 15:00:50', 100),
   ('Хлеб', 1, 'Бородинский', 30, false, '2018-01-14 15:00:50', 100),

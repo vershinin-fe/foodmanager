@@ -7,7 +7,7 @@ import org.springframework.util.Assert;
 import su.vfe.foodmanager.model.Family;
 import su.vfe.foodmanager.model.User;
 import su.vfe.foodmanager.repo.FamilyRepo;
-import su.vfe.foodmanager.repo.UserRepo;
+import su.vfe.foodmanager.util.exception.FamilyMembershipChangeException;
 import su.vfe.foodmanager.util.exception.NotFoundException;
 import static su.vfe.foodmanager.util.ValidationUtil.*;
 import java.util.List;
@@ -59,13 +59,11 @@ public class FamilyServiceImpl implements FamilyService {
 
     @Transactional
     @Override
-    public void addUser(int id, int userId) throws IllegalStateException {
+    public void addUser(int id, int userId) throws FamilyMembershipChangeException {
         Family family = get(id);
         User user = userService.get(userId);
 
-        if(user.getFamily() != null) {
-            throw new IllegalStateException(String.format("User with id=%d is already in family with id=%d", userId, user.getFamily().getId()));
-        }
+        checkUserAddingPossible(user);
 
         user.setFamily(family);
         family.getUsers().add(user);
@@ -73,13 +71,11 @@ public class FamilyServiceImpl implements FamilyService {
 
     @Transactional
     @Override
-    public void removeUser(int id, int userId) {
+    public void removeUser(int id, int userId) throws FamilyMembershipChangeException{
         Family family = get(id);
         User user = userService.get(userId);
 
-        if(!family.getUsers().contains(user)) {
-            throw new IllegalStateException(String.format("User with id=%d is not in this family", userId));
-        }
+        checkUserRemovingPossible(user, family);
 
         user.setFamily(null);
         family.getUsers().remove(user);

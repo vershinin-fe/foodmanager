@@ -11,6 +11,7 @@ import javax.persistence.*;
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
 public abstract class AbstractBaseEntity implements HasId {
     public static final int START_SEQ = 100;
+    public static final int ADMIN_ID = 1;
 
     @Id
     @SequenceGenerator(name = "global_seq", sequenceName = "global_seq", allocationSize = 1, initialValue = START_SEQ)

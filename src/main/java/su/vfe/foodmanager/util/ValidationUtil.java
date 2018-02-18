@@ -1,6 +1,10 @@
 package su.vfe.foodmanager.util;
 
 import su.vfe.foodmanager.HasId;
+import su.vfe.foodmanager.model.AbstractBaseEntity;
+import su.vfe.foodmanager.model.Family;
+import su.vfe.foodmanager.model.User;
+import su.vfe.foodmanager.util.exception.FamilyMembershipChangeException;
 import su.vfe.foodmanager.util.exception.NotFoundException;
 
 public class ValidationUtil {
@@ -38,6 +42,19 @@ public class ValidationUtil {
             bean.setId(id);
         } else if (bean.getId() != id) {
             throw new IllegalArgumentException(bean + " must be with id=" + id);
+        }
+    }
+
+    public static void checkUserAddingPossible(User user) {
+        int userId = user.getId();
+        if (userId == AbstractBaseEntity.ADMIN_ID || user.getFamily() != null) {
+            throw new FamilyMembershipChangeException("id=" + userId);
+        }
+    }
+
+    public static void checkUserRemovingPossible(User user, Family family) {
+        if (!family.getUsers().contains(user)) {
+            throw new FamilyMembershipChangeException("id=" + user.getId());
         }
     }
 }
