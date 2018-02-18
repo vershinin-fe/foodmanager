@@ -15,9 +15,8 @@ public class Item extends AbstractNamedEntity {
 
     //TODO: Think about units of measurement
     @Column(name = "quantity")
-    @DecimalMin("0.0")
-    @DecimalMax("10000.0")
-    private double quantity;
+    @Range(min = 0, max = 100)
+    private int quantity;
 
     @Column(name = "description")
     @NotBlank
@@ -47,15 +46,15 @@ public class Item extends AbstractNamedEntity {
     public Item() {
     }
 
-    public Item(Integer id, String name, double quantity) {
+    public Item(Integer id, String name, int quantity) {
         this(id, name, quantity, null);
     }
 
-    public Item(Integer id, String name, double quantity, String description) {
+    public Item(Integer id, String name, int quantity, String description) {
         this(id, name, quantity, description, 0, false, null, null);
     }
 
-    public Item(Integer id, String name, double quantity, String description, int price, boolean closed, LocalDateTime createDate, LocalDateTime closeDate) {
+    public Item(Integer id, String name, int quantity, String description, int price, boolean closed, LocalDateTime createDate, LocalDateTime closeDate) {
         super(id, name);
         this.quantity = quantity;
         this.description = description;
@@ -65,11 +64,11 @@ public class Item extends AbstractNamedEntity {
         this.closeDate = closeDate;
     }
 
-    public double getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(double quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
