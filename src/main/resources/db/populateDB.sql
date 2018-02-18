@@ -12,8 +12,8 @@ INSERT INTO users (name, email, password, role, family_id) VALUES
   ('Few', 'few@mail.ru', 'password', 'ROLE_USER', 100),
   ('Zoidberg', 'zoidberg@mail.ru', 'password', 'ROLE_USER', 101);
 
-INSERT INTO users (name, email, password, role) VALUES
-  ('Admin', 'admin@mail.ru', 'password', 'ROLE_ADMIN');
+INSERT INTO users (id, name, email, password, role) VALUES
+  (1, 'Admin', 'admin@mail.ru', 'password', 'ROLE_ADMIN');
 
 INSERT INTO items (name, quantity, description, price, closed, createdate, family_id) VALUES
   ('Молоко', 1, 'Чебаркуль', 84, false, '2018-01-14 15:00:50', 100),

@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @Access(value = AccessType.FIELD)
 public class Item extends AbstractNamedEntity {
 
-    //TODO: Think about units of measurement
     @Column(name = "quantity")
     @Range(min = 0, max = 100)
     private int quantity;
