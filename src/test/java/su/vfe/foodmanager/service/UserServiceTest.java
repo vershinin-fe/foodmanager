@@ -31,7 +31,7 @@ public class UserServiceTest {
         User newUser = new User(null, "Test", "test@mail.ru", "password", Role.ROLE_USER);
         User created = service.create(newUser);
         newUser.setId(created.getId());
-        assertThat(service.getAll()).usingElementComparatorIgnoringFields("family").isEqualTo(Arrays.asList(ADMIN, USER1, USER3, newUser, USER2));
+        assertThat(service.getAll()).usingElementComparatorIgnoringFields("family", "password").isEqualTo(Arrays.asList(ADMIN, USER1, USER3, newUser, USER2));
     }
 
     @Test(expected = DataAccessException.class)
@@ -42,7 +42,7 @@ public class UserServiceTest {
     @Test
     public void delete() {
         service.delete(USER1_ID);
-        assertThat(service.getAll()).usingElementComparatorIgnoringFields("family").isEqualTo(Arrays.asList(ADMIN, USER3, USER2));
+        assertThat(service.getAll()).usingElementComparatorIgnoringFields("family", "password").isEqualTo(Arrays.asList(ADMIN, USER3, USER2));
     }
 
     @Test(expected = NotFoundException.class)
@@ -53,7 +53,7 @@ public class UserServiceTest {
     @Test
     public void get() {
         User user = service.get(USER2_ID);
-        assertThat(user).isEqualToIgnoringGivenFields(USER2, "family");
+        assertThat(user).isEqualToIgnoringGivenFields(USER2, "family", "password");
     }
 
     @Test(expected = NotFoundException.class)
@@ -64,7 +64,7 @@ public class UserServiceTest {
     @Test
     public void getByEmail() {
         User user = service.getByEmail("zoidberg@mail.ru");
-        assertThat(user).isEqualToIgnoringGivenFields(USER2, "family");
+        assertThat(user).isEqualToIgnoringGivenFields(USER2, "family", "password");
     }
 
     @Test(expected = NotFoundException.class)
@@ -78,13 +78,13 @@ public class UserServiceTest {
         updated.setName("UpdatedName");
         updated.setRole(Role.ROLE_ADMIN);
         service.update(updated);
-        assertThat(service.get(USER1_ID)).isEqualToIgnoringGivenFields(updated,"family");
+        assertThat(service.get(USER1_ID)).isEqualToIgnoringGivenFields(updated,"family", "password");
     }
 
     @Test
     public void getAll() {
         List<User> all = service.getAll();
-        assertThat(all).usingElementComparatorIgnoringFields("family").isEqualTo(Arrays.asList(ADMIN, USER1, USER3, USER2));
+        assertThat(all).usingElementComparatorIgnoringFields("family", "password").isEqualTo(Arrays.asList(ADMIN, USER1, USER3, USER2));
     }
 
     @Test

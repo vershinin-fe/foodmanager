@@ -77,7 +77,7 @@ public class FamilyServiceTest {
     public void getWithUsers() {
         Family family = service.getWithUsers(FAMILY1_ID);
         assertThat(family).isEqualToIgnoringGivenFields(FAMILY1,"users", "items");
-        assertThat(family.getUsers()).usingElementComparatorIgnoringFields("family").isEqualTo(Collections.singletonList(USER1));
+        assertThat(family.getUsers()).usingElementComparatorIgnoringFields("family", "password").isEqualTo(Collections.singletonList(USER1));
     }
 
     @Test(expected = NotFoundException.class)
@@ -88,7 +88,7 @@ public class FamilyServiceTest {
     @Test
     public void addUser() {
         service.addUser(FAMILY1_ID, USER3_ID);
-        assertThat(service.getWithUsers(FAMILY1_ID).getUsers()).usingElementComparatorIgnoringFields("family").isEqualTo(Arrays.asList(USER1, USER3));
+        assertThat(service.getWithUsers(FAMILY1_ID).getUsers()).usingElementComparatorIgnoringFields("family", "password").isEqualTo(Arrays.asList(USER1, USER3));
     }
 
     @Test(expected = FamilyMembershipChangeException.class)
@@ -98,7 +98,7 @@ public class FamilyServiceTest {
 
     @Test
     public void removeUser() {
-        assertThat(service.getWithUsers(FAMILY2_ID).getUsers()).usingElementComparatorIgnoringFields("family").isEqualTo(Collections.singletonList(USER2));
+        assertThat(service.getWithUsers(FAMILY2_ID).getUsers()).usingElementComparatorIgnoringFields("family", "password").isEqualTo(Collections.singletonList(USER2));
         service.removeUser(FAMILY2_ID, USER2_ID);
         assertThat(service.getWithUsers(FAMILY2_ID).getUsers()).isEmpty();
     }

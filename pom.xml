@@ -28,8 +28,9 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- Spring -->
-        <spring.version>5.0.3.RELEASE</spring.version>
+        <spring.version>5.0.4.RELEASE</spring.version>
         <spring-data-jpa.version>2.0.3.RELEASE</spring-data-jpa.version>
+        <spring-security.version>5.0.2.RELEASE</spring-security.version>
 
         <!-- WEB -->
         <tomcat.version>8.5.24</tomcat.version>
@@ -146,6 +147,18 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- Security -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${spring-security.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${spring-security.version}</version>
+        </dependency>
+
         <!-- Test -->
         <dependency>
             <groupId>junit</groupId>
@@ -163,6 +176,11 @@
             <artifactId>assertj-core</artifactId>
             <version>${assertj.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <version>${spring-security.version}</version>
         </dependency>
     </dependencies>
 
