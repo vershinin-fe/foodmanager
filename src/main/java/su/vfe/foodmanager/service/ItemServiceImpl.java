@@ -2,6 +2,7 @@ package su.vfe.foodmanager.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import su.vfe.foodmanager.model.Item;
 import su.vfe.foodmanager.repo.ItemRepo;
@@ -54,6 +55,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    @Transactional
     public void close(int id, boolean close, int familyId) {
         Item item = get(id, familyId);
         item.setClosed(close);
