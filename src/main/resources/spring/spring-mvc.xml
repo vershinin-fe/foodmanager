@@ -24,6 +24,8 @@
         <property name="fallbackToSystemLocale" value="false"/>
     </bean>
 
+    <mvc:resources mapping="/resources/**" location="/resources/"/>
+
     <bean id="templateResolver"
           class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
         <property name="prefix" value="/WEB-INF/templates/" />
