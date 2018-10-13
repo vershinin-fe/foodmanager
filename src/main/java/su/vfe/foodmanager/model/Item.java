@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class Item extends AbstractNamedEntity {
 
     @Column(name = "quantity")
-    @Range(min = 0, max = 100)
+    @Range(min = 0, max = 10000)
     private int quantity;
 
     @NotNull
@@ -24,7 +24,7 @@ public class Item extends AbstractNamedEntity {
 
     @Column(name = "description")
     @NotBlank
-    @Size(min = 2, max = 250)
+    @Size(min = 1, max = 30)
     private String description;
 
     @Column(name = "price")
