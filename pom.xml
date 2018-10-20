@@ -91,6 +91,9 @@
         <!-- Tests -->
         <junit.version>4.12</junit.version>
         <assertj.version>3.9.0</assertj.version>
+
+        <!-- Security -->
+        <java-jwt.version>3.4.0</java-jwt.version>
     </properties>
 
     <dependencies>
@@ -206,6 +209,12 @@
             <artifactId>spring-security-config</artifactId>
             <version>${spring-security.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>${java-jwt.version}</version>
+        </dependency>
+
 
         <!-- Test -->
         <dependency>
