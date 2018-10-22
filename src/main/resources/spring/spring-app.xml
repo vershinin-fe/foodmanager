@@ -12,6 +12,7 @@
 
     <context:component-scan base-package="su.vfe.**.service"/>
     <context:component-scan base-package="su.vfe.**.repo"/>
+    <context:component-scan base-package="su.vfe.**.security"/>
     <jpa:repositories base-package="su.vfe.**.repo"/>
 
     <bean id="dataSource"

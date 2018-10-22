@@ -4,19 +4,35 @@
              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
-    <http pattern="/rest/**" use-expressions="true" name="restSecurityFilterChain" create-session="stateless">
-        <http-basic/>
-        <intercept-url pattern="/rest/admin/**" access="hasRole('ROLE_ADMIN')"/>
-        <intercept-url pattern="/**" access="hasRole('ROLE_USER')"/>
+    <http pattern="/login" use-expressions="true" name="authenticationSecurityFilterChain" create-session="stateless" entry-point-ref="authEntryPoint">
+        <custom-filter position="BASIC_AUTH_FILTER" ref="jwtAuthenticationFilter"/>
+        <intercept-url pattern="/login" access="permitAll()"/>
         <csrf disabled="true"/>
     </http>
 
-    <beans:bean class="org.springframework.security.crypto.factory.PasswordEncoderFactories" id="passwordEncoder" factory-method="createDelegatingPasswordEncoder"/>
+    <http pattern="/**" use-expressions="true" name="restSecurityFilterChain" create-session="stateless" entry-point-ref="authEntryPoint">
+        <custom-filter after="FORM_LOGIN_FILTER" ref="jwtAuthorizationFilter"/>
+        <intercept-url pattern="/rest/admin/**" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/rest/**" access="hasRole('ROLE_USER')"/>
+        <intercept-url pattern="/**" access="permitAll()"/>
+        <csrf disabled="true"/>
+    </http>
 
-    <authentication-manager>
+    <authentication-manager alias="authenticationManager">
         <authentication-provider user-service-ref="userService">
             <password-encoder ref="passwordEncoder"/>
         </authentication-provider>
     </authentication-manager>
+
+    <beans:bean class="org.springframework.security.crypto.factory.PasswordEncoderFactories" id="passwordEncoder" factory-method="createDelegatingPasswordEncoder"/>
+
+    <beans:bean id="jwtAuthorizationFilter" class="su.vfe.foodmanager.security.JWTAuthorizationFilter">
+        <beans:constructor-arg name="authManager" ref="authenticationManager" />
+        <beans:constructor-arg name="userDetailsService" ref="userService"/>
+    </beans:bean>
+
+    <beans:bean id="jwtAuthenticationFilter" class="su.vfe.foodmanager.security.JWTAuthenticationFilter">
+        <beans:property name="authenticationManager" ref="authenticationManager"/>
+    </beans:bean>
 
 </beans:beans>
