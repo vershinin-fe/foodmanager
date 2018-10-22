@@ -1,6 +1,8 @@
 package su.vfe.foodmanager.security;
 
 import com.auth0.jwt.JWT;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import su.vfe.foodmanager.model.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,12 +22,16 @@ import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 import static su.vfe.foodmanager.security.SecurityConstants.*;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+    private final Logger log = LoggerFactory.getLogger("security");
+
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
         try {
             User creds = new ObjectMapper()
                     .readValue(req.getInputStream(), User.class);
+
+            log.info("Attempt to authenticate {}", creds.getEmail());
 
             return getAuthenticationManager().authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -49,5 +55,11 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .sign(HMAC512(SECRET.getBytes()));
         res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
+    }
+
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
+        log.info(failed.getMessage());
+        super.unsuccessfulAuthentication(request, response, failed);
     }
 }
