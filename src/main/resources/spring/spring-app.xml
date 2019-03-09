@@ -17,10 +17,12 @@
     <context:component-scan base-package="su.vfe.**.security"/>
     <jpa:repositories base-package="su.vfe.**.repo"/>
 
-    <jdbc:initialize-database data-source="dataSource" enabled="${database.init}">
-        <jdbc:script location="classpath:${jdbc.initLocation}"/>
-        <jdbc:script encoding="utf-8" location="classpath:${jdbc.populateLocation}"/>
-    </jdbc:initialize-database>
+    <beans profile="postgresql,hsqldb">
+        <jdbc:initialize-database data-source="dataSource" enabled="${database.init}">
+            <jdbc:script location="classpath:${jdbc.initLocation}"/>
+            <jdbc:script encoding="utf-8" location="classpath:${jdbc.populateLocation}"/>
+        </jdbc:initialize-database>
+    </beans>
 
     <beans profile="hsqldb">
         <context:property-placeholder location="classpath:db/hsqldb.properties" system-properties-mode="OVERRIDE"/>
