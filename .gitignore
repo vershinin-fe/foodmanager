@@ -5,3 +5,4 @@ target
 log
 postman
 *.patch
+node_modules
