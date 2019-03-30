@@ -12,6 +12,7 @@
 
     <http pattern="/**" use-expressions="true" name="restSecurityFilterChain" create-session="stateless" entry-point-ref="authEntryPoint">
         <custom-filter after="FORM_LOGIN_FILTER" ref="jwtAuthorizationFilter"/>
+        <intercept-url pattern="/**" access="permitAll()" method="OPTIONS"/>
         <intercept-url pattern="/rest/admin/**" access="hasRole('ROLE_ADMIN')"/>
         <intercept-url pattern="/rest/**" access="hasRole('ROLE_USER')"/>
         <intercept-url pattern="/**" access="permitAll()"/>
